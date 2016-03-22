@@ -1,6 +1,7 @@
 import QtQuick 2.0
 
 Item {
+    id: root
     width: bg.width
     height: bg.height
 
@@ -21,29 +22,39 @@ Item {
         }
     }
 
-    ClickableImage {
+    ClickableImageV2 {
         id: rocket1
-        x: 20; y:100
+        x: 40; y:root.height-height
+	    width: 100; height: 200   
         source: "assets/rocket.png"
-        onClicked: {
-            x += 5
+        text: "animation on property"
+        NumberAnimation on y {
+            to: 40; duration: 4000
         }
     }
-    ClickableImage {
+    ClickableImageV2 {
         id: rocket2
-        x: 340; y:100
+        x: 152; y:root.height-height
+	    width: 100; height: 200   
         source: "assets/rocket.png"
-        onClicked: {
-            rotation += 5
+        text: "behavior on property"
+        Behavior on y {
+            NumberAnimation { duration: 4000 }
         }
+        onClicked: y=40
     }
-    ClickableImage {
+    ClickableImageV2 {
         id: rocket3
-        x: 640; y:100
+        x: 264; y:root.height-height
+	    width: 100; height: 200   
         source: "assets/rocket.png"
-        onClicked: {
-            rotation += 5
-            scale -= 0.05
+        onClicked: anim.start()
+        text: "standalone animation"
+        NumberAnimation {
+            id: anim
+            target: rocket3
+            properties: "y"
+            to: 40; duration: 4000
         }
     }
 }
